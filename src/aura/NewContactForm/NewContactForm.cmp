@@ -1,0 +1,64 @@
+<aura:component controller="RestLightningController">
+
+    <aura:attribute name="show" type="Boolean" default="false"/>
+
+    <aura:attribute name="newContact" type="Contact"
+                    default="{ 'sobjectType': 'Contact',
+                             'LastName':'',
+                             'FirstName':'',
+                             'Phone': '',
+                             'Email':''
+                             }"/>
+    <aura:attribute name="tempContact" type="Contact"
+                    default="{ 'sobjectType': 'Contact',
+                             'LastName':'',
+                             'FirstName':'',
+                             'Phone': '',
+                             'Email':''
+                             }"/>
+
+
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="slds-m-top_medium">
+                <button type="button" label="NewContact For Org B" onclick="{!c.createNewContactB}">New Contact For Org
+                    B
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <aura:if isTrue="{!v.show}">
+        <form>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <ui:inputText aura:id="ContactFirstName" label="Last Name:"
+                                      class="slds-input"
+                                      labelClass="slds-form-element__label"
+                                      value="{!v.newContact.LastName}"
+                        />
+                        <ui:inputText aura:id="ContactFirstName" label="First Name:"
+                                      class="slds-input"
+                                      labelClass="slds-form-element__label"
+                                      value="{!v.newContact.FirstName}"
+                        />
+                        <ui:inputText aura:id="ContactPhone" label="Phone:"
+                                      class="slds-input"
+                                      labelClass="slds-form-element__label"
+                                      value="{!v.newContact.Phone}"
+                        />
+                        <ui:inputText aura:id="ContactEmail" label="Email:"
+                                      class="slds-input"
+                                      labelClass="slds-form-element__label"
+                                      value="{!v.newContact.Email}"
+                        />
+                    </div>
+                </div>
+                <button type="button" onclick="{!c.saveNewContact}">Save</button>
+                <button type="button" onclick="{!c.cancel}">Cancel</button>
+            </div>
+
+        </form>
+    </aura:if>
+</aura:component>

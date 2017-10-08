@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="Show/hide EditForm component">
+
+    <aura:attribute name="showEditForm" type="Boolean"/>
+
+</aura:event>

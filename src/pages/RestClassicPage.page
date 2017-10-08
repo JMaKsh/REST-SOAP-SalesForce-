@@ -1,0 +1,238 @@
+<apex:page name="RestClassicPage" sideBar="false" controller="RestClassicController">
+
+<head>
+    <script type ='text/javascript'>
+
+        /*function validateForm(){
+
+            confirm('Are you sure');
+        }*/
+
+
+
+        /*function validateForm() {
+            var email = document.getElementById("{!$Component.SurveyForm.orgAContactdetail1.tableForm.email}").value;
+            console.log('email'+email);
+            if (email == null || email == "") {
+                alert("Email Required");
+                return false;
+            } else {
+                var re = "/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/";
+                console.log(re.test(email));
+                console.log(email);
+                return re.test(email);
+
+            }
+        }*/
+    </script>
+
+</head>
+
+    <apex:pageBlock title="Contacts from OrgA" mode="edit">
+        <apex:form >
+            <apex:pageBlockSection columns="2" collapsible="false">
+                <apex:pageBlockSectionItem >
+                    <apex:dataList value="{!contactsFromOrgA}" var="contact">
+
+                        <apex:commandLink value="{!contact.LastName}  {!contact.FirstName}"
+                                          action="{!orgAContactDetailInfo}" rerender="orgAContactdetail,orgBContacts">
+                            <apex:param name="orgAContactID" value="{!contact.ID}" assignTo="{!orgAaccDetailId}"/>
+                            <apex:param name="orgAContactLastName" value="{!contact.LastName}"
+                                        assignTo="{!filteredAccLastName}"/>
+                        </apex:commandLink>
+                    </apex:dataList>
+                </apex:pageBlockSectionItem>
+                <apex:outputPanel id="orgAContactdetail">
+                    <strong>
+                        <apex:outputLabel value="Contact Detail Info"/>
+                    </strong>
+                    <br/>
+                    <apex:outputText value="{!orgAContactDetail.LastName}  {!orgAContactDetail.FirstName}"/>
+                    <br/>
+                    <apex:outputText value="{!orgAContactDetail.Phone}"/>
+                    <br/>
+                    <apex:outputText value="{!orgAContactDetail.Email}"/>
+
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+        </apex:form>
+    </apex:pageBlock>
+
+    <apex:pageBlock title="Contacts from OrgB">
+        <apex:outputPanel id="orgBContacts">
+
+            <apex:pageBlockSection columns="2" collapsible="false">
+                <apex:form >
+
+                    <apex:outputPanel id="orgAContactdetail2">
+
+                        <table width='80%' border="0" cellpadding="10" cellspacing="0">
+                            <apex:repeat value="{!filteredContactsFromOrgB}" var="contactB">
+                                <tr>
+                                    <td>
+                                        <apex:commandLink value="{!contactB.LastName}  {!contactB.FirstName}"
+                                                          action="{!orgBContactDetailInfo}"
+                                                          rerender="orgBContactdetail">
+                                            <apex:param name="orgAContactID" value="{!contactB.ID}"
+                                                        assignTo="{!orgBaccDetailId}"/>
+                                        </apex:commandLink>
+                                    </td>
+                                    <td>
+                                        <apex:commandLink value="EDIT" styleClass="btn" action="{!editContactOnOrgB}">
+                                            <apex:param name="editContactID" value="{!contactB.ID}"
+                                                        assignTo="{!editId}"/>
+                                            <apex:param name="editContactLastName" value="{!contactB.LastName}"
+                                                        assignTo="{!editLastName}"/>
+                                            <apex:param name="editContactFirstName" value="{!contactB.FirstName}"
+                                                        assignTo="{!editFirstName}"/>
+                                            <apex:param name="editContactPhone" value="{!contactB.Phone}"
+                                                        assignTo="{!editPhone}"/>
+                                            <apex:param name="editContactEmail" value="{!contactB.Email}"
+                                                        assignTo="{!editEmail}"/>
+                                        </apex:commandLink>
+                                    </td>
+                                    <td>
+                                        <apex:commandLink value="DELETE" styleClass="btn" onClick="if(!confirm('Are you sure you want to delete this item?')) return false"
+                                                          action="{!deleteContactOnOrgB}" rerender="orgBContacts">
+                                            <apex:param name="orgBContactDeleteID" value="{!contactB.ID}"
+                                                        assignTo="{!contactBDeleteId}"/>
+                                        </apex:commandLink>
+                                    </td>
+                                </tr>
+                            </apex:repeat>
+                        </table>
+                    </apex:outputPanel>
+                </apex:form>
+
+                <apex:pageBlockSectionItem >
+                    <apex:outputPanel id="orgBContactdetail">
+                        <strong>
+                            <apex:outputLabel value="Contact Detail Info"/>
+                        </strong>
+                        <br/>
+                        <apex:outputText value="{!orgBContactDetail.LastName}  {!orgBContactDetail.FirstName}"/>
+                        <br/>
+                        <apex:outputText value="{!orgBContactDetail.Phone}"/>
+                        <br/>
+                        <apex:outputText value="{!orgBContactDetail.Email}"/>
+
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection columns="1" collapsible="false">
+                <apex:form >
+                    <apex:outputPanel id="orgAContactdetail1" rendered="{!visible}">
+                        <table id="tableForm" width='50%' border="0" cellpadding="10" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <apex:outputLabel value="LastName: "/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <apex:inputText value="{!editLastName}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <apex:outputLabel value="FirstName: "/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <apex:inputText value="{!editFirstName}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <apex:outputLabel value="Phone: "/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <apex:inputText value="{!editPhone}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <apex:outputLabel value="Email: "/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <apex:inputText value="{!editEmail}"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <apex:commandLink value="SAVE" styleClass="btn" action="{!saveEditContact}" reRender="orgBContacts">
+                        </apex:commandLink>
+                        <apex:commandLink value="CANCEL" styleClass="btn"
+                                          action="{!cancelEdit}">
+                        </apex:commandLink>
+                    </apex:outputPanel>
+                </apex:form>
+            </apex:pageBlockSection>
+        </apex:outputPanel>
+    </apex:pageBlock>
+    <apex:pageBlock >
+        <apex:form >
+            <apex:commandLink value="New Contact on OrgB" styleClass="btn"
+                              action="{!showInputSection}">
+            </apex:commandLink>
+        </apex:form>
+        <apex:pageBlockSection columns="1" collapsible="false">
+            <apex:form >
+                <apex:outputPanel id="orgAContactdetail1" rendered="{!show}">
+                    <table width='50%' border="0" cellpadding="10" cellspacing="0">
+                        <tr>
+                            <td>
+                                <strong>
+                                    <apex:outputLabel value="LastName: "/>
+                                </strong>
+                            </td>
+                            <td>
+                                <apex:inputText value="{!newContactLastName}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>
+                                    <apex:outputLabel value="FirstName: "/>
+                                </strong>
+                            </td>
+                            <td>
+                                <apex:inputText value="{!newContactFirstName}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>
+                                    <apex:outputLabel value="Phone: "/>
+                                </strong>
+                            </td>
+                            <td>
+                                <apex:inputText value="{!newContactPhone}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>
+                                    <apex:outputLabel value="Email: "/>
+                                </strong>
+                            </td>
+                            <td>
+                                <apex:inputText value="{!newContactEmail}"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <apex:commandLink value="SAVE" styleClass="btn" action="{!saveNewContact}">
+                    </apex:commandLink>
+                    <apex:commandLink value="CANCEL" styleClass="btn"
+                                      action="{!cancelNew}">
+                    </apex:commandLink>
+                </apex:outputPanel>
+            </apex:form>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:page>

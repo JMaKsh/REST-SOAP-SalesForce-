@@ -1,0 +1,39 @@
+<aura:component controller="SoapLightningController">
+
+    <aura:attribute name="selectContact" type="Contact"/>
+
+
+    <aura:registerEvent name="ComponentEvent" type="c:EditFormShow"/>
+
+    <form>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <ui:inputText aura:id="ContactFirstName" label="Last Name:"
+                                  class="slds-input"
+                                  labelClass="slds-form-element__label"
+                                  value="{!v.selectContact.LastName}"
+                    />
+                    <ui:inputText aura:id="ContactFirstName" label="First Name:"
+                                  class="slds-input"
+                                  labelClass="slds-form-element__label"
+                                  value="{!v.selectContact.FirstName}"
+                    />
+                    <ui:inputText aura:id="ContactPhone" label="Phone:"
+                                  class="slds-input"
+                                  labelClass="slds-form-element__label"
+                                  value="{!v.selectContact.Phone}"
+                    />
+                    <ui:inputText aura:id="ContactLastName" label="Email:"
+                                  class="slds-input"
+                                  labelClass="slds-form-element__label"
+                                  value="{!v.selectContact.Email}"
+                    />
+                </div>
+            </div>
+            <button type="button" onclick="{!c.saveEditedContact}" id="{selectContact.Id}">Save</button>
+            <button type="button" onclick="{!c.cancel}">Cancel</button>
+        </div>
+
+    </form>
+</aura:component>

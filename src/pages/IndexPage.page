@@ -1,0 +1,10 @@
+<apex:page controller="IndexPageController" sideBar="false">
+    <apex:form >
+        <apex:pageBlock title="Navigation" mode="edit">
+            <apex:commandLink styleClass="btn" action="{!restClassic}" value="RESTClassic"/>
+             <apex:commandLink styleClass="btn" action="{!soapClassic}" value="SOAPClassic"/>
+             <apex:commandLink styleClass="btn" action="{!restLightning}" value="RESTLightning"/>
+             <apex:commandLink styleClass="btn" action="{!soapLightning}" value="SOAPLightning"/>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

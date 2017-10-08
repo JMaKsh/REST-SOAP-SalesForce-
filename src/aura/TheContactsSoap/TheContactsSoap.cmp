@@ -1,0 +1,49 @@
+<aura:component controller="SoapLightningController">
+    <link href='/resource/bootstrap/' rel="stylesheet"/>
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:attribute name="contactsMap" type="Map"/>
+    <aura:attribute name="contactsList" type="Contact[]"/>
+    <aura:attribute name="selContact" type="Contact"/>
+    <aura:attribute name="contactsBMap" type="Map"/>
+    <aura:attribute name="contactsBList" type="Contact[]"/>
+    <aura:attribute name="selBContact" type="Contact"/>
+    <aura:attribute name="show" type="Boolean" default="false"/>
+
+    <aura:handler event="aura:locationChange" action="{!c.locationChange}"/>
+
+
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand">Contacts from OrgA:</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <c:ContactsA contacts="{!v.contactsList}"/>
+            </div>
+            <div class="col-sm-8">
+                <c:ContactsADetails contact="{!v.selContact}"/>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand">Contacts from OrgB:</a>
+            </div>
+        </div>
+
+    </div>
+
+    <c:ContactBSoap contactsB="{!v.contactsBList}" contactsBMap="{!v.contactsBMap}"/>
+
+    <c:NewContactForm/>
+
+</aura:component>

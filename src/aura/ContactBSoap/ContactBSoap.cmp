@@ -1,0 +1,50 @@
+<aura:component controller="SoapLightningController">
+    <aura:attribute name="contactsB" type="Contact[]"/>
+    <aura:attribute name="selectedContactB" type="Contact"/>
+    <aura:attribute name="selectContactB" type="Contact"/>
+    <aura:attribute name="contactsBMap" type="Map"/>
+    <aura:attribute name="show" type="Boolean" default="false"/>
+
+    <aura:handler name="ComponentEvent" event="c:EditFormShow" action="{!c.handleComponentEvent}"/>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <table class="slds-table" style="background-color:#f0f1f4">
+                    <tbody>
+                    <aura:iteration items="{!v.contactsB}" var="contactB">
+                        <tr>
+                            <lightning:icon iconName="utility:user"/>
+                            <th scope="row" data-label="Contact Name">
+                                <div class="slds-truncate">
+                                    <a href="javascript:void(0)" data-record="{!contactB.Id}"
+                                       onclick="{!c.showDetails}"> {!contactB.LastName+'   '+contactB.FirstName}</a>
+                                </div>
+                            </th>
+                            <td>
+                                <button type="button" onclick="{! c.editClick }" id="{!contactB.Id}">Edit</button>
+
+                            </td>
+                            <td>
+                                <button type="button" label="Delete" onclick="{! c.deleteClick }" id="{!contactB.Id}">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-8">
+                <div class="details">
+                    <h1>{!v.selectedContactB.LastName+'   '+v.selectedContactB.FirstName}</h1>
+                    <p> {!v.selectedContactB.Phone}</p>
+                    <p>{!v.selectedContactB.Email}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <aura:if isTrue="{!v.show}">
+        <c:EditFormSoap selectContact="{!v.selectContactB}"/>
+    </aura:if>
+</aura:component>

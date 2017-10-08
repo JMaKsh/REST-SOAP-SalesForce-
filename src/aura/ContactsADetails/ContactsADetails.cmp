@@ -1,0 +1,11 @@
+<aura:component>
+
+    <aura:attribute name="contact" type="Contact"/>
+    <div class="details">
+        <h1>{!v.contact.LastName+'   '+v.contact.FirstName}</h1>
+        <p> {!v.contact.Phone}</p>
+        <p>{!v.contact.Email}</p>
+
+    </div>
+
+</aura:component>
